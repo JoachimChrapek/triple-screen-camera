@@ -33,10 +33,10 @@ namespace FazApp.TripleScreenCamera
             Vector3 topLeftDirection = topLeftCornerPosition - cameraPosition;
         
             float bottomLeftDot = Vector3.Dot(bottomLeftDirection, normal);
-            float leftEdgeDistance = Vector3.Dot(rightDirectionNormalized, bottomLeftDirection) * nearClippingPlane / bottomLeftDot;
-            float rightEdgeDistance = Vector3.Dot(rightDirectionNormalized, bottomRightDirection) * nearClippingPlane / bottomLeftDot;
-            float bottomEdgeDistance = Vector3.Dot(upDirectionNormalized, bottomLeftDirection) * nearClippingPlane / bottomLeftDot;
-            float topEdgeDistance = Vector3.Dot(upDirectionNormalized, topLeftDirection) * nearClippingPlane / bottomLeftDot;
+            float leftEdgeDistance = GetEdgeDistance(rightDirectionNormalized, bottomLeftDirection);
+            float rightEdgeDistance = GetEdgeDistance(rightDirectionNormalized, bottomRightDirection);
+            float bottomEdgeDistance = GetEdgeDistance(upDirectionNormalized, bottomLeftDirection);
+            float topEdgeDistance = GetEdgeDistance(upDirectionNormalized, topLeftDirection);
         
             Matrix4x4 newProjectionMatrix = new ();
             newProjectionMatrix[0, 0] = 2.0f * nearClippingPlane / (rightEdgeDistance - leftEdgeDistance);
@@ -51,6 +51,11 @@ namespace FazApp.TripleScreenCamera
             CameraComponent.farClipPlane = farClippingPlane;
             CameraComponent.transform.rotation = Quaternion.LookRotation(normal);
             CameraComponent.projectionMatrix = newProjectionMatrix;
+
+            float GetEdgeDistance(Vector3 a, Vector3 b)
+            {
+                return Vector3.Dot(a, b) * nearClippingPlane / bottomLeftDot;
+            }
         }
 
         private void Reset()
