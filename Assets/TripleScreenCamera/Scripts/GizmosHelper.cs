@@ -57,12 +57,12 @@ namespace FazApp.TripleScreenCamera
             }
         }
     
-        private static Vector3 ThreePlaneIntersection(Plane plane1, Plane plan2, Plane plane3)
+        private static Vector3 ThreePlaneIntersection(Plane plane1, Plane plane2, Plane plane3)
         {
-            return (-plane1.distance * Vector3.Cross(plan2.normal, plane3.normal) +
-                    -plan2.distance * Vector3.Cross(plane3.normal, plane1.normal) +
-                    -plane3.distance * Vector3.Cross(plane1.normal, plan2.normal)) /
-                   Vector3.Dot(plane1.normal, Vector3.Cross(plan2.normal, plane3.normal));
+            return (-plane1.distance * Vector3.Cross(plane2.normal, plane3.normal) +
+                    -plane2.distance * Vector3.Cross(plane3.normal, plane1.normal) +
+                    -plane3.distance * Vector3.Cross(plane1.normal, plane2.normal)) /
+                   Vector3.Dot(plane1.normal, Vector3.Cross(plane2.normal, plane3.normal));
         }
     }
 }
