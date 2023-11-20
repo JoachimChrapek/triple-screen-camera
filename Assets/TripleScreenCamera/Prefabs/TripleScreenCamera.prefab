@@ -33,7 +33,7 @@ Transform:
   - {fileID: 2616391636592779035}
   - {fileID: 8720194606123858514}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6203503520334991546
 MonoBehaviour:
@@ -202,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ff205e1c25c9684794fdcd7d4e59f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CameraComponent>k__BackingField: {fileID: 2729021623893023430}
 --- !u!1 &3369314546365565978
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,6 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ff205e1c25c9684794fdcd7d4e59f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CameraComponent>k__BackingField: {fileID: 2899494871885166349}
 --- !u!1 &6301142369138992146
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,3 +495,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ff205e1c25c9684794fdcd7d4e59f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CameraComponent>k__BackingField: {fileID: 6072451167790509705}

@@ -2,24 +2,11 @@ using UnityEngine;
 
 namespace FazApp.TripleScreenCamera
 {
-    [RequireComponent(typeof(Camera))]
     [AddComponentMenu("FazApp/TripleScreenCamera/CameraFrustumController")]
     public class CameraFrustumController : MonoBehaviour
     {
-        private Camera cameraComponent;
-
-        public Camera CameraComponent
-        {
-            get
-            {
-                if (cameraComponent == null)
-                {
-                    cameraComponent = GetComponent<Camera>();
-                }
-
-                return cameraComponent;
-            }
-        }
+        [field: SerializeField]
+        public Camera CameraComponent { get; private set; }
 
         /// <summary>
         /// Sets camera frustum to match provided viewport corners positions
@@ -64,6 +51,11 @@ namespace FazApp.TripleScreenCamera
             CameraComponent.farClipPlane = farClippingPlane;
             CameraComponent.transform.rotation = Quaternion.LookRotation(normal);
             CameraComponent.projectionMatrix = newProjectionMatrix;
+        }
+
+        private void Reset()
+        {
+            CameraComponent = GetComponent<Camera>();
         }
     }
 }
