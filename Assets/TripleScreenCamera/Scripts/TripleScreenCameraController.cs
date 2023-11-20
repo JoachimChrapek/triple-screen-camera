@@ -286,8 +286,8 @@ namespace FazApp.TripleScreenCamera
             Vector3 centerDisplayPosition = transform.position + transform.forward * distanceFromCenterDisplay;
             centerDisplayWorldSpaceCorners = GetDisplayCorners(centerDisplayPosition, transform.forward, transform.up);
 
-            UpdateLateralDisplayCorners(centerDisplayPosition, true);
-            UpdateLateralDisplayCorners(centerDisplayPosition, false);
+            UpdateLateralDisplayCorners(centerDisplayPosition);
+            UpdateLateralDisplayCorners(centerDisplayPosition);
 
             centerDisplayLocalSpaceCorners = GetLocalSpaceCornersPositions(centerDisplayWorldSpaceCorners);
             leftDisplayLocalSpaceCorners = GetLocalSpaceCornersPositions(leftDisplayWorldSpaceCorners);
@@ -307,25 +307,39 @@ namespace FazApp.TripleScreenCamera
             return corners;
         }
     
-        private void UpdateLateralDisplayCorners(Vector3 centerDisplayPosition, bool isLeftDisplay)
+        private void UpdateLateralDisplayCorners(Vector3 centerDisplayPosition)
         {
-            float angleOfLateralDisplays = isLeftDisplay == true ? lateralDisplaysAngle * -1.0f : lateralDisplaysAngle;
-            Vector3 displayEdgeDirection = isLeftDisplay == true ? transform.right * -1.0f : transform.right;
-            Vector3 displayCenterDirection = isLeftDisplay == true ? Vector3.left : Vector3.right;
+            leftDisplayWorldSpaceCorners = GetLeftDisplayCorners(centerDisplayPosition);
+            rightDisplayWorldSpaceCorners = GetRightDisplayCorners(centerDisplayPosition);
+        }
+
+        private Vector3[] GetLeftDisplayCorners(Vector3 centerDisplayPosition)
+        {
+            float angleOfLateralDisplays = lateralDisplaysAngle * -1.0f;
+            Vector3 displayEdgeDirection = transform.right * -1.0f;
+            Vector3 displayCenterDirection = Vector3.left;
+            
+            return GetLateralDisplayCorners(centerDisplayPosition, angleOfLateralDisplays, displayEdgeDirection, displayCenterDirection);
+        }
+        
+        private Vector3[] GetRightDisplayCorners(Vector3 centerDisplayPosition)
+        {
+            float angleOfLateralDisplays = lateralDisplaysAngle;
+            Vector3 displayEdgeDirection = transform.right;
+            Vector3 displayCenterDirection = Vector3.right;
+
+            return GetLateralDisplayCorners(centerDisplayPosition, angleOfLateralDisplays, displayEdgeDirection, displayCenterDirection);
+        }
+        
+        private Vector3[] GetLateralDisplayCorners(Vector3 centerDisplayPosition, float angleOfLateralDisplay, Vector3 displayEdgeDirection, Vector3 displayCenterDirection)
+        {
             float halfDisplayWidth = displayWidth / 2.0f;
 
-            Quaternion displayRotation = transform.rotation * Quaternion.AngleAxis(angleOfLateralDisplays, transform.up);
-            Vector3 displayEdgePosition = centerDisplayPosition + displayEdgeDirection * halfDisplayWidth + Quaternion.AngleAxis(angleOfLateralDisplays / 2.0f, transform.up) * displayEdgeDirection * lateralDisplaysMargin;
+            Quaternion displayRotation = transform.rotation * Quaternion.AngleAxis(angleOfLateralDisplay, transform.up);
+            Vector3 displayEdgePosition = centerDisplayPosition + displayEdgeDirection * halfDisplayWidth + Quaternion.AngleAxis(angleOfLateralDisplay / 2.0f, transform.up) * displayEdgeDirection * lateralDisplaysMargin;
             Vector3 displayPosition = displayEdgePosition + displayRotation * displayCenterDirection * halfDisplayWidth;
 
-            if (isLeftDisplay)
-            {
-                leftDisplayWorldSpaceCorners = GetDisplayCorners(displayPosition, displayRotation * transform.forward, transform.up);
-            }
-            else
-            {
-                rightDisplayWorldSpaceCorners = GetDisplayCorners(displayPosition, displayRotation * transform.forward, transform.up);
-            }
+            return GetDisplayCorners(displayPosition, displayRotation * transform.forward, transform.up);
         }
 
         private Vector3[] GetLocalSpaceCornersPositions(Vector3[] worldSpaceCorners)
